@@ -50,9 +50,9 @@ public class Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
 
-        try{
+        try {
             socket = new Socket("127.0.0.1", 8888);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.err.println("cannot connect");
         }
 
@@ -64,27 +64,25 @@ public class Controller implements Initializable {
 
 
             new Thread(() -> {
-                if(res.next().equals("1")){
+                if (res.next().equals("1")) {
                     TURN = true;
                     color = 1;
-                }
-                else{
+                } else {
                     TURN = false;
                     color = 2;
                 }
 
                 while (true) {
-                    if(res.hasNext()) {
+                    if (res.hasNext()) {
                         g = res.next();
                     }
-                    if(Character.isDigit(g.charAt(0))){
+                    if (Character.isDigit(g.charAt(0))) {
                         TURN = true;
                         g2Board();
                         Platform.runLater(this::drawChess);
-                    }
-                    else{
-                        if(!fl){
-                            fl=true;
+                    } else {
+                        if (!fl) {
+                            fl = true;
                             System.out.println(g);
                         }
                         new Timer().schedule(new TimerTask() {
@@ -115,21 +113,22 @@ public class Controller implements Initializable {
 
     private void Board2g() {
         StringBuilder sb = new StringBuilder();
-        for(int i=0; i<3; i++) for(int j=0; j<3; j++){
-            sb.append(chessBoard[i][j]);
-        }
-        g=sb.toString();
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++) {
+                sb.append(chessBoard[i][j]);
+            }
+        g = sb.toString();
     }
 
     private void g2Board() {
-        for(int i=0; i<9; i++){
-            char c=g.charAt(i);
-            int x=i/3, y=i%3;
-            chessBoard[x][y]=c-'0';
+        for (int i = 0; i < 9; i++) {
+            char c = g.charAt(i);
+            int x = i / 3, y = i % 3;
+            chessBoard[x][y] = c - '0';
         }
     }
 
-    private boolean refreshBoard (int x, int y) {
+    private boolean refreshBoard(int x, int y) {
         if (chessBoard[x][y] == EMPTY) {
 //            chessBoard[x][y] = !TURN ? PLAY_1 : PLAY_2;
             chessBoard[x][y] = color;
@@ -139,7 +138,7 @@ public class Controller implements Initializable {
         return false;
     }
 
-    private void drawChess () {
+    private void drawChess() {
         for (int i = 0; i < chessBoard.length; i++) {
             for (int j = 0; j < chessBoard[0].length; j++) {
                 if (flag[i][j]) {
@@ -163,7 +162,7 @@ public class Controller implements Initializable {
         }
     }
 
-    private void drawCircle (int i, int j) {
+    private void drawCircle(int i, int j) {
         Circle circle = new Circle();
         base_square.getChildren().add(circle);
         circle.setCenterX(i * BOUND + BOUND / 2.0 + OFFSET);
@@ -174,7 +173,7 @@ public class Controller implements Initializable {
         flag[i][j] = true;
     }
 
-    private void drawLine (int i, int j) {
+    private void drawLine(int i, int j) {
         Line line_a = new Line();
         Line line_b = new Line();
         base_square.getChildren().add(line_a);
